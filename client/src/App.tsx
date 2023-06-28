@@ -1,7 +1,6 @@
 import {
   AuthBindings,
   Authenticated,
-  GitHubBanner,
   Refine,
 } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
@@ -135,7 +134,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -214,7 +212,7 @@ function App() {
 
               <RefineKbar />
               <UnsavedChangesNotifier />
-              <DocumentTitleHandler />
+              {/* <DocumentTitleHandler /> */}
             </Refine>
           </RefineSnackbarProvider>
         </ColorModeContextProvider>
