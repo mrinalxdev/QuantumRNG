@@ -1,19 +1,3 @@
-export interface IdConfiguration {
-  client_id: string;
-  auto_select?: boolean;
-  callback: (handleCredentialResponse: CredentialResponse) => void;
-  login_uri?: string;
-  native_callback?: (...args: any[]) => void;
-  cancel_on_tap_outside?: boolean;
-  prompt_parent_id?: string;
-  nonce?: string;
-  context?: string;
-  state_cookie_domain?: string;
-  ux_mode?: "popup" | "redirect";
-  allowed_parent_origin?: string | string[];
-  intermediate_iframe_close_callback?: (...args: any[]) => void;
-}
-
 export interface CredentialResponse {
   credential?: string;
   select_by?:
@@ -26,6 +10,22 @@ export interface CredentialResponse {
     | "brn_add_session"
     | "btn_confirm_add_session";
   clientId?: string;
+}
+
+export interface IdConfiguration {
+  client_id: string | undefined;
+  auto_select?: boolean;
+  callback: (handleCredentialResponse: CredentialResponse) => void;
+  login_uri?: string;
+  native_callback?: (...args: any[]) => void;
+  cancel_on_tap_outside?: boolean;
+  prompt_parent_id?: string;
+  nonce?: string;
+  context?: string;
+  state_cookie_domain?: string;
+  ux_mode?: "popup" | "redirect";
+  allowed_parent_origin?: string | string[];
+  intermediate_iframe_close_callback?: (...args: any[]) => void;
 }
 
 export interface GsiButtonConfiguration {
