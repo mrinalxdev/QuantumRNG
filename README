@@ -1,0 +1,11 @@
+> Class QuantumGate 
+
+The code is a quantum gate that uses Hadamard gates to implement the Pauli X and CNOT gates.
+The code is written in terms of qubits, which are represented by 1's and 0's.
+The first line creates a QuantumGate object with an initial state of 1.
+This is done using the hadamrdGate function, which takes one parameter: the qubit to be initialized as 1.
+The next two lines create functions for implementing Pauli X and CNOT gates on this gate object.
+These functions take one parameter each: controlQubit (the input) and targetQubit (the output).
+They return values based on whether or not their respective inputs were true or false when they were called.
+The code is a quantum gate that takes two qubits as input and returns one as output.
+The first line of the snippet sets up a variable called "hadamrdGate" which will be used to store the result of the quantum gate.

@@ -1,0 +1,11 @@
+{
+  "name": "quantum_rng",
+  "version": "1.0.0",
+  "description": "It leverages the principles of quantum computing to intorduce new paradigm in the way developers handle state management and animations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mrinal Pramanick",
+  "license": "ISC"
+}
