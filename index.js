@@ -144,46 +144,44 @@ class QuantumAnimator {
     animate();
   }
 
-  quantumGateAnimation({duration, gates}){
+  quantumGateAnimation({ duration, gates }) {
     const startTime = Date.now();
     let currentState = 0;
 
-
     const animate = () => {
-      const currentTime = Date.now()
-      const progress = Math.min(1, (currentTime - startTime) / duration)
+      const currentTime = Date.now();
+      const progress = Math.min(1, (currentTime - startTime) / duration);
 
-      currentState = Math.floor(progress * gates.length)
-      this.element.innerHTML = gates[currentState]
+      currentState = Math.floor(progress * gates.length);
+      this.element.innerHTML = gates[currentState];
 
-
-      if (progress < 1){
-        requestAnimationFrame(animate)
+      if (progress < 1) {
+        requestAnimationFrame(animate);
       }
-    }
+    };
 
     animate();
   }
 
-  entangledAnimation({duration, property, values, entangledElements}){
-    const startTime = Date.now()
+  entangledAnimation({ duration, property, values, entangledElements }) {
+    const startTime = Date.now();
     const animate = () => {
-      const currentTime = Date.now()
-      const progress = Maths.min(1, (currentTime - startTime) / duration)
+      const currentTime = Date.now();
+      const progress = Maths.min(1, (currentTime - startTime) / duration);
 
-      const interpolatedValue = values[0] + progress * (values[1] - values[0])
-      this.element.style[property] = interpolatedValue
- 
+      const interpolatedValue = values[0] + progress * (values[1] - values[0]);
+      this.element.style[property] = interpolatedValue;
+
       entangledElements.forEach((entangledElement) => {
-        entangledElement.style[property] = interpolatedValue
-      })
+        entangledElement.style[property] = interpolatedValue;
+      });
 
-      if (progress < 1){
-        requestAnimationFrame(animate)
+      if (progress < 1) {
+        requestAnimationFrame(animate);
       }
-    }
+    };
 
-    animate()
+    animate();
   }
 }
 
@@ -192,24 +190,121 @@ class QuantumEntanglement {
     this.variables = {};
   }
 
-  createVariable(initialValue){
+  createVariable(initialValue) {
     const variable = {
-      value : initialValue,
-      entangledVariables : [],
-      set : function (newValue) {
-        this.value = newValue; 
+      value: initialValue,
+      entangledVariables: [],
+      set: function (newValue) {
+        this.value = newValue;
         this.entangledVariables.forEach((entangledVar) => {
           entangledVar.value = newValue;
-        })
+        });
       },
-      
-      entangle: function (otherVariable) {
-        this.entangledVariables.push(otherVariable)
-        otherVariable.entangledVariables.push(this)
-      }
-    }
 
-    this.variables[variable.value] = variable
+      entangle: function (otherVariable) {
+        this.entangledVariables.push(otherVariable);
+        otherVariable.entangledVariables.push(this);
+      },
+    };
+
+    this.variables[variable.value] = variable;
     return variable;
   }
 }
+
+class QuantumCommunication {
+  static encodeMessageWithSuperposition(messages) {
+    const quantumState = new QuantumState();
+
+    messages.forEach((message, index) => {
+      const qubitName = `message_${index}`;
+      quantumState.setQubit(qubitName, message);
+    });
+
+    return quantumState;
+  }
+
+  static decodeSuperpositionMessage(quantumState) {
+    const message = [];
+
+    for (const qubitName in quantumState.qubits) {
+      const message = quantumState.measure(qubitName);
+
+      message.push({ qubit: qubitName, message });
+    }
+
+    return message;
+  }
+}
+
+class QuantumAlgorithm {
+  static runQuantumEntanglement(circuit, qubit1, qubit2) {
+    circuit.applyGate("H", qubit1);
+    circuit.applyGate("CNOT", qubit1, qubit2);
+
+    return circuit.measureQubit(qubit1);
+  }
+
+  static runShotFactoriization(circuit, targetQubit) {
+    const numIterations = 3;
+
+    for (let i = 0; i < numIterations; i++) {
+      circuit.applyGate("H", targetQubit);
+      circuit.applyGate("X", targetQubit);
+      circuit.applyGate("H", targetQubit);
+      circuit.applyGate("X", targetQubit);
+      circuit.applyGate("H", targetQubit);
+    }
+
+    return circuit.measureQubit(targetQubit);
+  }
+
+  //Qubit sender (John) Qubit receiver (Bob) teleported (Charlie's Qubit) entangles with Bob Qubit
+  static runQuantumTeleportation(
+    circuit,
+    senderQubit,
+    entagnledBobQubit,
+    receiverQubit
+  ) {
+    const senderJohnQubit = senderQubit;
+    const entagnledBobQubit = entagnledBobQubit;
+    const receiverCharlieQubit = receiverQubit;
+
+    QuantumAlgorithm.runQuantumEntanglement(
+      circuit,
+      senderJohnQubit,
+      entagnledBobQubit
+    );
+
+    circuit.applyGate('H', receiverCharlieQubit)
+    circuit.applyGate('X', receiverCharlieQubit)
+
+    circuit.applyGate('CNOT', receiverCharlieQubit, senderJohnQubit)
+    QuantumAlgorithm.runQuantumEntanglement(circuit, senderJohnQubit, entagnledBobQubit)
+
+
+    const measurement1 = circuit.measureQubit(senderJohnQubit)
+    const measurement2 = circuit.measureQubit(receiverCharlieQubit)
+
+    if (measurement2 === 1){
+      circuit.applyGate('X', entagnledBobQubit)
+    }
+
+    if (measurement1 === 1){
+      circuit.applyGate('Z', entagnledBobQubit)
+    }
+
+    return circuit.measureQubit(entagnledBobQubit)
+  }
+}
+
+module.exports = {
+  QuantumState,
+  QuantumAnimator,
+  QuantumEntanglement,
+  QuantumCircuit,
+  QuantumCircuit,
+  QuantumGate,
+  QuantumTeleportation,
+  QuantumCommunication,
+};
